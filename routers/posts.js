@@ -8,5 +8,6 @@ router.get("/", blogController.index);
 router.post("/create", uploader.single("image"), blogController.create);
 router.get("/:slug/download", blogController.downloadImg);
 router.get("/:slug", blogController.show);
+router.delete("/:slug", blogController.destroy);
 
 module.exports = router;

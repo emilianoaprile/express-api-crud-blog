@@ -173,6 +173,18 @@ const create = (req, res) => {
     );
 };
 
+const destroy = (req, res) => {
+    const {slug} = req.params;
+    const eliminatePost = posts.find((post) => post.slug === slug);
+    if(!eliminatePost){
+        return res.status(404).send("Post non trovato!");
+    }
+
+    deletePublicFile(eliminatePost.image);
+    updatePost(posts.filter((post) => post.slug !== eliminatePost.slug));
+    res.send(`Post con slug ${slug} eliminato!`);
+};
+
 const downloadImg = (req, res) => {
     const slug = decodeURIComponent(req.params.slug);
     const reqPost = posts.find((post) => post.slug === slug);
@@ -188,9 +200,12 @@ const downloadImg = (req, res) => {
     res.download(imagePath);
 };
 
+
+
 module.exports = {
     index,
     show,
     create,
+    destroy,
     downloadImg,
 };
